@@ -1,3 +1,5 @@
+%This script execute the mandatory tasks regarding to segmentation metrics.
+%To switch between A and B database make use of db parameter.
 
 %Variables
 FN = 0; TN = FN; FP = TN; TP = FP; Precision = TP ;Recall = Precision; F1 = Recall;

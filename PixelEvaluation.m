@@ -1,6 +1,16 @@
 function [pixelTP, pixelFP, pixelFN, pixelTN]  = PixelEvaluation( currentimage,ground )
-%PIXELEVALUATION Summary of this function goes here
-%   Detailed explanation goes here
+%:::PixelEvaluation::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+%Computes the number of TP,FP,FN and TN of a given image comparing with its
+%grund truth.
+%Input:
+%   -currentimage: Input image for analysis
+%   -ground: Corresponding gorund truth
+%Output:
+%   -pixelTP: number of pixels classified as true positives
+%   -pixelFP: number of pixels classified as false positives
+%   -pixelFN: number of pixels classified as false negatives
+%   -pixelTN: number of pixels classified as true negatives
+%::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
     pixelTP = sum(sum(currentimage>0 & ground>0));
     pixelFP = sum(sum(currentimage>0 & ground==0));
     pixelFN = sum(sum(currentimage==0 & ground>0));

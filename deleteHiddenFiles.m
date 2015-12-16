@@ -1,6 +1,12 @@
 function [resultList] = deleteHiddenFiles(listFiles)
-%UNTITLED4 Summary of this function goes here
-%   Detailed explanation goes here
+%:::deleteHiddenFiles::::::::::::::::::::::::::::::::::::::::::::::::::::::
+%Given a file list, deletes from it the ones that corresponds to hidden 
+%system files for UNIX based systems: .,.. and .DS_Store
+%Input:
+%   -listFiles
+%Output:
+%   -resultList:list of files without hidden ones (if they were).
+%::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 resultList = listFiles;
 if(isdir(resultList(1).name))
     if(isdir(resultList(2).name))
