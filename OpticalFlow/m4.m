@@ -30,8 +30,8 @@ v = i_est(:,:,2);
 factor = 50/size(u,2);
 u_ = factor*imresize(u,factor,'bilinear');
 v_ = factor*imresize(v,factor,'bilinear');
-Run quiver taking into account matlab coordinate system quirkiness
-and scaling the magnitude of (u,v) by 2 so it is more visible.
+%Run quiver taking into account matlab coordinate system quirkiness
+%and scaling the magnitude of (u,v) by 2 so it is more visible.
 quiver(u_(end:-1:1,:),-v_(end:-1:1,:),4);
 axis('tight');
 %-----------------------------------------------------------------------
