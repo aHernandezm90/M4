@@ -5,7 +5,7 @@
 FN = 0; TN = FN; FP = TN; TP = FP; Precision = TP ;Recall = Precision; F1 = Recall;
 
 %Select the dataset to be analazyed (A or B)
-db = 'A';
+db = 'B';
 dbPath = strcat('Dataset/Dataset1/',db,'/');
 %Extra 1 parameters
 extra1 = true;
