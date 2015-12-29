@@ -1,6 +1,6 @@
-function [ mean_dataset, sd_dataset ] = gaussian_training( inputFolder,dirlist,numberTraining,gaussianColor)
-%GAUSSIAN_TRAINING Summary of this function goes here
-%   Detailed explanation goes here
+function [ mean_dataset, sd_dataset ] = GaussianTraining( inputFolder,dirlist,numberTraining,gaussianColor)
+%Train for the Non-recursive Gaussian modeling for background substraction
+%The function compute the mean and standard deviation of a set of images 
     
     %Load the images and compute the sum of the images
     %Inicialize the matrix
