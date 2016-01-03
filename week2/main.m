@@ -8,7 +8,6 @@ param.gaussianColor = false;
 param.alpha = 0.1;
 param.maxAlpha = 2.5;
 param.minAlpha = -2.5;
-param
 
 %------------------
 %Gaussian Modelling
@@ -77,6 +76,7 @@ for i=1:length(datasets)
     end;
     
     for ii=param.minAlpha:0.1:param.maxAlpha
+        ii
         [output] = GaussianTesting(inputFolder,dirList,mean_dataset{i},sd_dataset{i},numberTraining,param.gaussianColor,ii,false);
         [TP(i,t),FP(i,t),FN(i,t),TN(i,t),F1(i,t),Recall(i,t)] = GaussianEvaluation(output,groundtruth);
         t=t+1;
