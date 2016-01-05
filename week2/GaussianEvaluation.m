@@ -10,5 +10,5 @@ for i=1:size(output,3)
     TN = TN + pixelTN;
 end
 
-[Precision,F1,Recall] = computeMetrics(TP,FP,FN);
+[Precision,Recall,F1] = computeMetrics(TP,FP,FN);
 end
