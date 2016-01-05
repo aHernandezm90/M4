@@ -3,7 +3,7 @@
 files = dir('input/*.jpg');
 files_gth = dir('groundtruth/*.png');
 [train,test,gth] = Load (files,files_gth);
-%[train,test,gth] = LoadColor(files,files_gth,'hsv');
+%[train,test,gth] = LoadColor(files,files_gth,'yuv');
 color =0;
 %----------------------------------------------------------------------
 media = mean(train,3);

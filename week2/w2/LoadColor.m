@@ -9,9 +9,9 @@ function [train,test,gth] = LoadColor(files,files_gth,color)
 		if color=='rgb'
 			train(:,:,:,idx) = imread(strcat('input/',files(idx).name));
 			test(:,:,:,idx) = imread(strcat('input/',files(idx+150).name));
-		elseif color =='hsv'
-			train(:,:,:,idx) = rgb2hsv(imread(strcat('input/',files(idx).name)));
-			test(:,:,:,idx) = rgb2hsv(imread(strcat('input/',files(idx+150).name)));			
+		elseif color =='yuv'
+			train(:,:,:,idx) = rgb2yuv(imread(strcat('input/',files(idx).name)));
+			test(:,:,:,idx) = rgb2yuv(imread(strcat('input/',files(idx+150).name)));			
 		end
 		gth(:,:,idx) = imread(strcat('groundtruth/',files_gth(idx+150).name));
 	end
