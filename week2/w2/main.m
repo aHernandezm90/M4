@@ -2,7 +2,7 @@
 % load image
 files = dir('input/*.jpg');
 files_gth = dir('groundtruth/*.png');
-%[train,test,gth] = Load (files,files_gth);
+[train,test,gth] = Load (files,files_gth);
 %[train,test,gth] = LoadColor(files,files_gth,'hsv');
 color =0;
 %----------------------------------------------------------------------
@@ -13,7 +13,7 @@ media = double (media);
 img_res = bsxfun(@minus,test,media);
 %----------------------------------------------------------------------
 % Segmentacion con gausiana 
-alpha = [0.5:0.5:1.5];
+alpha = [0.5:0.5:2.0];
 tp = zeros (size(alpha));
 tn = zeros (size(alpha));
 fp = zeros (size(alpha));
