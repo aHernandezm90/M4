@@ -6,8 +6,8 @@
 param.gaussianColor = false;
 %Value between [-2.5,2.5]
 param.alpha = 0.1;
-param.maxAlpha = 5.0;
-param.minAlpha = 0;
+param.maxAlpha = 2.2;
+param.minAlpha = 2;
 param.minP = 0;
 param.maxP = 1;
 %Get the Datasets
@@ -63,9 +63,9 @@ for i=1:length(datasets)
     
     for ii=numberTraining+1:length(dirList)
         if(param.gaussianColor)
-            groundtruth(:,:,:,ii-numberTraining) = imread(strcat(groundtruthFolder,strrep(groundtruthList(ii).name,'in','gt'))) == 255;
+            groundtruth(:,:,:,ii-numberTraining) = imread(strcat(groundtruthFolder,strrep(groundtruthList(ii).name,'in','gt')));
         else
-            groundtruth(:,:,ii-numberTraining) = imread(strcat(groundtruthFolder,strrep(groundtruthList(ii).name,'in','gt'))) == 255;
+            groundtruth(:,:,ii-numberTraining) = imread(strcat(groundtruthFolder,strrep(groundtruthList(ii).name,'in','gt')));
         end
     end;
     

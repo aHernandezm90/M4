@@ -11,11 +11,10 @@ function [pixelTP, pixelFP, pixelFN, pixelTN]  = PixelEvaluation( currentimage,g
 %   -pixelFN: number of pixels classified as false negatives
 %   -pixelTN: number of pixels classified as true negatives
 %::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-   pixelTP = sum(sum(currentimage==255 & ground==255));
-   pixelFP = sum(sum(currentimage==255 & ground<=50));
-   pixelFN = sum(sum(currentimage==0 & ground==255));
-   pixelTN = sum(sum(currentimage==0 & ground<=50));
-    
+   pixelTP = sum(sum(currentimage==1 & ground==255));
+   pixelFP = sum(sum(currentimage==1 & ground<=50));
+   pixelFN = sum(sum(currentimage<=50 & ground==255));
+   pixelTN = sum(sum(currentimage<=50 & ground<=50));
 
 end
 
