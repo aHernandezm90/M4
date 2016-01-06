@@ -37,8 +37,19 @@ VideoInFolder = ['input'];
 Fold = ['Dataset/' video];
 
 % Initialization
-    a = 1050 + T1;
-    begin=['in00' num2str(a)];
+switch (video)
+    case 'Highway'
+        a = 1050;
+        o = '';
+    case 'Fall'
+        a = 1460;
+        o = '';
+    case 'Traffic'
+        a = 0950;
+        o = '0';
+end
+    a = a + T1;
+    begin=['in00' o num2str(a)];
        
  
     Frame(:,:,1)=rgb2gray(imread(['./' Fold '/' VideoInFolder '/'  begin  '.jpg'])); 
@@ -54,9 +65,9 @@ Sequence=zeros(H,W,T2-T1);
 for t=T1:T2
     
   
-            a = 1050 + t;
-            begin=['in00' num2str(a)];
-       
+            
+            begin=['in00' o num2str(a)];
+            a = a + 1;
     Frame=zeros(H,W,C);
     Frame(:,:,1)=rgb2gray(imread(['./' Fold '/' VideoInFolder '/'  begin  '.jpg'])); 
     Frame(:,:,2)=rgb2gray(imread(['./' Fold '/' VideoInFolder '/'  begin  '.jpg'])); 
