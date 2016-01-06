@@ -1,4 +1,4 @@
-function [TP,FP,FN,TN,F1,Recall] = GaussianEvaluation(output,groundtruth)
+function [TP,FP,FN,TN,F1,Recall,Precision] = GaussianEvaluation(output,groundtruth)
 %Evaluation Metrics for the Non-recursive Gaussian modeling for background substraction
 %The function compute TP,FP,TN,FN,F1 of a set of images
 TP=0;FP=0;FN=0;TN=0;F1=0;Recall=0;Precision = 0;
