@@ -1,4 +1,4 @@
-function [ out ] = GaussianTesting( inputFolder,dirList,mean_dataset,sd_dataset,numberTraining,gaussianColor,alphaVal,WriteResults)
+function [ out ] = GaussianTesting( inputFolder,dirList,mean_dataset,sd_dataset,numberTraining,gaussianColor,alphaVal,WriteResults,datasetName)
 %Testing for the Non-recursive Gaussian modeling for background substraction
 %The function compute the backgraund substraction of a set of images
 
@@ -26,7 +26,7 @@ for ii=numberTraining+1:length(dirList)
         %Background
         out(:,:,i) = ~(abs(current_image-mean_dataset) < (alphaVal*(sd_dataset+2)));
         if(WriteResults)
-            imwrite(out(:,:,i),strcat(strrep(inputFolder, '/input/', '/results/'),int2str(ii),'.png'));
+            imwrite(background,strcat('./results/recursive/backgroundMask/',datasetName,'/',num2str(ii),'_alpha_',num2str(alphaVal),'.png'));
         end    
     end
     i=i+1;
