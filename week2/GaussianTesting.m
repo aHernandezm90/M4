@@ -17,16 +17,16 @@ for ii=numberTraining+1:length(dirList)
     if(gaussianColor)
         current_image = rgb2gray(imread(strcat(inputFolder,dirList(ii).name)));
         %Background
-        out(:,:,i) = abs(current_image-mean_dataset) >= (alphaVal*(sd_dataset+2));
+        out(:,:,i) = ~(abs(current_image-mean_dataset) < (alphaVal*(sd_dataset)));
         if(WriteResults)
             imwrite(out(:,:,i),strrep(inputFolder, '/input/', '/results/'));
         end
     else
         current_image = double(rgb2gray(imread(strcat(inputFolder,dirList(ii).name))));
         %Background
-        out(:,:,i) = abs(current_image-mean_dataset) >= (alphaVal*(sd_dataset+2));
+        out(:,:,i) = ~(abs(current_image-mean_dataset) < (alphaVal*(sd_dataset+2)));
         if(WriteResults)
-            imwrite(background,strcat('./results/nonrecursive/backgroundMask/',datasetName,'/',num2str(j),'_alpha_',num2str(alpha),'.png'));
+            imwrite(out(:,:,i),strcat(strrep(inputFolder, '/input/', '/results/'),int2str(ii),'.png'));
         end    
     end
     i=i+1;
