@@ -23,14 +23,19 @@ for dataset=1:length(datasets)
     output = classification(inputDir,imageNames,nTraining,nGaussians(dataset),lRate(dataset),mRatio(dataset));
     
     
-    disp('1)Clasification Complete');
+    disp('-> Classification Complete');
     
     %end) Evaluate groundthruth
     groundtruth = loadGroundtruth(datasets(dataset).name);
     [TP,FP,FN,TN,F1,Recall,Precision] = datasetEvaluation(output,groundtruth);
     disp(strcat('F1:',num2str(F1)));
-    
-    
+    %% - Task 6
+    disp('... Obtaining Weighted F-measure');
+
+    Q = WFb(double(logical(groundtruth)),logical(output));
+        
+    disp(strcat('Q: ',num2str(Q)));
+
     disp(' ');
 end
     

@@ -10,6 +10,11 @@ for ii = 1:length(imageNames)
     %img = rgb2hsv(img);
     output(:,:,ii) = foregroundDet.step(img);
     
+    %% -- Task 6  function WFb
+    img = double(img);
+    imBW = logical( im2bw(img));
+%    Q = WFb(img,imBW);
+    
 end
 
 end
