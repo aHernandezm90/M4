@@ -10,16 +10,13 @@ for ii = 1:length(imageNames)
     %img = rgb2lab(img);
     img = rgb2ycbcr(img);
     output(:,:,ii) = foregroundDet.step(img);
-<<<<<<< HEAD
-    output(:,:,ii) = imfill(output(:,:,ii),'holes');
-=======
     
+    %output(:,:,ii) = imfill(output(:,:,ii),'holes');    
     %% -- Task 6  function WFb
     img = double(img);
     imBW = logical( im2bw(img));
 %    Q = WFb(img,imBW);
-    
->>>>>>> 3e4b0176ac820ce4d204cb5e592bb17b9103653b
+
 end
 
 end
