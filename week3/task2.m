@@ -1,8 +1,8 @@
 %Se toma como input la salida de task 1 (conn4 o conn 8, el que haya dado mejor F1)
 %Task2
-datasetTrafficPath = '../week3/results/imfill/conn4/Traffic/';
-datasetHighwayPath = '../week3/results/imfill/conn4/Highway/';
-datasetFallPath = '../week3/results/imfill/conn4/Fall/';
+datasetTrafficPath = '../week3/input/Traffic/';
+datasetHighwayPath = '../week3/input/Highway/';
+datasetFallPath = '../week3/input/Fall/';
 resultsTrafficPath = '../week3/results/bwareaopen/Traffic/';
 resultsHighwayPath = '../week3/results/bwareaopen/Highway/';
 resultsFallPath = '../week3/results/bwareaopen/Fall/';
@@ -16,7 +16,8 @@ end
 for i = 1:3
     %Apply hole filling
     %Obtain list of files
-    listFiles = deleteHiddenFiles(dir(datasetPath{i}));
+    listFiles = dir(datasetPath{i});
+    listFiles = listFiles(3:end);
     numFiles = length(listFiles);
     %Compute every image
     for j = 1:numFiles

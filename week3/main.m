@@ -13,6 +13,7 @@ param.alpha = 0.4;
 param.beta = 0.6;
 param.th = 0.5;
 param.ts = 0.1;
+outPath = {'input/Fall','input/Highway','input/Traffic'};
 for dataset=1:length(datasets)
     %disp(strcat('Actual Dataset:',datasets(dataset).name))
     %disp('--------------------');
@@ -29,15 +30,19 @@ for dataset=1:length(datasets)
     output = uint8(output(:,:,nTraining+1:end));
     imageNames = imageNames(nTraining+1:end);
     
-<<<<<<< HEAD
+    for  i = 1:length(imageNames)
+        path = strcat('./',outPath(dataset),'/',imageNames(i).name);
+        imwrite(output(:,:,i),path{1});
+    end
+    
+
     %4)Shadow remove
 
     background = getBackground(inputDir,imageNames);
     %output = shadowRemove(background,output,inputDir,imageNames,param);
-=======
+
     
     disp('-> Classification Complete');
->>>>>>> 3e4b0176ac820ce4d204cb5e592bb17b9103653b
     
     %end) Evaluate groundthruth
     groundtruth = loadGroundtruth(datasets(dataset).name);

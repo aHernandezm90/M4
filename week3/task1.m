@@ -6,10 +6,10 @@
 datasetTrafficPath = '../week3/input/Traffic/';
 datasetHighwayPath = '../week3/input/Highway/';
 datasetFallPath = '../week3/input/Fall/';
-resultsTrafficPath = '../week3/results/imfill/conn4/Traffic/';
-resultsHighwayPath = '../week3/results/imfill/conn4/Highway/';
-resultsFallPath = '../week3/results/imfill/conn4/Fall/';
-connectivity = 4; %Cambiar conectividad, 4 u 8
+resultsTrafficPath = '../week3/results/imfill/conn8/Traffic/';
+resultsHighwayPath = '../week3/results/imfill/conn8/Highway/';
+resultsFallPath = '../week3/results/imfill/conn8/Fall/';
+connectivity = 8; %Cambiar conectividad, 4 u 8
 locations = [3 3];
 datasetPath = {datasetTrafficPath,datasetHighwayPath,datasetFallPath};
 resultsPath = {resultsTrafficPath,resultsHighwayPath,resultsFallPath};
@@ -24,14 +24,15 @@ end
 for i = 1:3
     %Apply hole filling
     %Obtain list of files
-    listFiles = deleteHiddenFiles(dir(datasetPath{i}));
+    listFiles = dir(datasetPath{i});
+    listFiles = listFiles(3:end);
     numFiles = length(listFiles);
     %Compute every image
     for j = 1:numFiles
         fileName = listFiles(j).name;
         originalImage = logical(imread(strcat(datasetPath{i},fileName)));
-        filledImage = imfill(originalImage,locations,connectivity);
-        imwrite(~filledImage,strcat(resultsPath{i},fileName));
+        filledImage = imfill(originalImage,connectivity,'holes');
+        imwrite(filledImage,strcat(resultsPath{i},fileName));
     end
 end
 
