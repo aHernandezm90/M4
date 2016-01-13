@@ -9,10 +9,13 @@ datasets = datasets(3:end);
 nGaussians = [3,2,3];
 lRate = [0.0255,0.01,0.049];
 mRatio = [0.6,0.57,0.61];
-
+param.alpha = 0.4;
+param.beta = 0.6;
+param.th = 0.5;
+param.ts = 0.1;
 for dataset=1:length(datasets)
-    disp(strcat('Actual Dataset:',datasets(dataset).name))
-    disp('--------------------');
+    %disp(strcat('Actual Dataset:',datasets(dataset).name))
+    %disp('--------------------');
     
     %Config the data for the ForegroundDetector - Train and Classification
     inputDir = strcat('../Dataset/',datasets(dataset).name,'/input/');
@@ -21,12 +24,19 @@ for dataset=1:length(datasets)
     
     %1)Clasification of previous week
     output = classification(inputDir,imageNames,nTraining,nGaussians(dataset),lRate(dataset),mRatio(dataset));
+    %disp('1)Clasification Complete');
+    %Config data to catch only the test data
+    output = uint8(output(:,:,nTraining+1:end));
+    imageNames = imageNames(nTraining+1:end);
     
-    
-    disp('1)Clasification Complete');
+    %4)Shadow remove
+
+    background = getBackground(inputDir,imageNames);
+    %output = shadowRemove(background,output,inputDir,imageNames,param);
     
     %end) Evaluate groundthruth
     groundtruth = loadGroundtruth(datasets(dataset).name);
+    groundtruth = groundtruth(:,:,nTraining+1:end);
     [TP,FP,FN,TN,F1,Recall,Precision] = datasetEvaluation(output,groundtruth);
     disp(strcat('F1:',num2str(F1)));
     

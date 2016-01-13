@@ -7,9 +7,10 @@ img_size = img_size(1:2);
 output = zeros([img_size size(imageNames,1)]);
 for ii = 1:length(imageNames)
     img = imread(fullfile(inputdir,imageNames(ii).name));
-    %img = rgb2hsv(img);
+    %img = rgb2lab(img);
+    img = rgb2ycbcr(img);
     output(:,:,ii) = foregroundDet.step(img);
-    
+    output(:,:,ii) = imfill(output(:,:,ii),'holes');
 end
 
 end
