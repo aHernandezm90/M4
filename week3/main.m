@@ -1,7 +1,6 @@
 %M4 - Team X
 %This script execute all the tasks of the second week of the project
 
-
 %Get the Datasets
 datasets = dir('../Dataset/');
 datasets = datasets(find(vertcat(datasets.isdir)));
@@ -27,12 +26,17 @@ for dataset=1:length(datasets)
     output = classification(inputDir,imageNames,nTraining,nGaussians(dataset),lRate(dataset),mRatio(dataset));
     %disp('1)Clasification Complete');
     %Config data to catch only the test data
+    %output=output1;
+    %task 4
     output = uint8(output(:,:,nTraining+1:end));
+    for i=1:size(output,3)
+    output(:,:,i)=(imdilate(imopen(output(:,:,i),strel('disk',4)),strel('disk',4)));
+    end
     imageNames = imageNames(nTraining+1:end);
     
     for  i = 1:length(imageNames)
         path = strcat('./',outPath(dataset),'/',imageNames(i).name);
-        imwrite(output(:,:,i),path{1});
+%        imwrite(output(:,:,i),path{1});
     end
     
 
