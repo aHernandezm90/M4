@@ -29,19 +29,31 @@ for dataset=1:length(datasets)
     output = uint8(output(:,:,nTraining+1:end));
     imageNames = imageNames(nTraining+1:end);
     
+<<<<<<< HEAD
     %4)Shadow remove
 
     background = getBackground(inputDir,imageNames);
     %output = shadowRemove(background,output,inputDir,imageNames,param);
+=======
+    
+    disp('-> Classification Complete');
+>>>>>>> 3e4b0176ac820ce4d204cb5e592bb17b9103653b
     
     %end) Evaluate groundthruth
     groundtruth = loadGroundtruth(datasets(dataset).name);
     groundtruth = groundtruth(:,:,nTraining+1:end);
     [TP,FP,FN,TN,F1,Recall,Precision] = datasetEvaluation(output,groundtruth);
     disp(strcat('F1:',num2str(F1)));
-    
-    
+    %% - Task 6
+    disp('... Obtaining Weighted F-measure');
+
+    Q = WFb(double(logical(groundtruth)),logical(output));
+        
+    disp(strcat('Q: ',num2str(Q)));
+
     disp(' ');
 end
+
+
     
     
