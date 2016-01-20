@@ -1,7 +1,7 @@
 function [ output ] = loadGroundtruth( name )
 %LOADGROUNDTHRUTH Summary of this function goes here
 %   Detailed explanation goes here
-    inputDir = strcat('../Dataset/',name,'/groundtruth/');
+    inputDir = strcat(name,'/groundtruth/');
     imageNames = dir(fullfile(inputDir,'*.png'));
     img_size = size(imread(fullfile(inputDir,imageNames(1).name)));
     img_size = img_size(1:2);
