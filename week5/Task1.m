@@ -1,16 +1,17 @@
-function [ output_args ] = Task1( params )
+function Task1( params )
 %TASK1 Implementation of TASK 1
 
 %Video file reader - Read Input
+train = vision.VideoFileReader(params.videoTraining);
 reader = vision.VideoFileReader(params.videoInput);
 
 %Stauffer, C. and Grimson - Background substraction
 detector = vision.ForegroundDetector('NumGaussians', 3, ...
-            'NumTrainingFrames', 50, 'MinimumBackgroundRatio', 0.5,'LearningRate',0.008);
+            'NumTrainingFrames', 100, 'MinimumBackgroundRatio', 0.7,'LearningRate',0.0025);
 %Blob detector
 blobAnalyser = vision.BlobAnalysis('BoundingBoxOutputPort', true, ...
             'AreaOutputPort', true, 'CentroidOutputPort', true, ...
-            'MinimumBlobArea', 400);
+            'MinimumBlobArea', 2000,'Connectivity', 4);
 %Structure for track analysis
 tracks = struct(...
             'id', {}, ...
@@ -22,37 +23,69 @@ tracks = struct(...
 % ID of the next track
 nextId = 1; 
 
+while ~isDone(train)
+    %1.Actual frame
+    frame = train.step();
+    
+    frame = rgb2hsv(double(frame));
+    %2.Substraction
+    mask = detector.step(frame);
+end
+
 while ~isDone(reader)
     
     %1.Actual frame
     frame = reader.step();
-    
+    mask2 = (frame(:,:,1) <= 0.09);
+    rgbFrame = frame;
+    frame = rgb2hsv(double(frame));
     %2.Substraction
     mask = detector.step(frame);
     
+    
     %3.Remove noise
-    mask = bwareaopen(mask, 300);
-    mask = imclose(mask, strel('disk', 3));
+    mask = logical(mask .* not(mask2));
+    mask = medfilt2(mask);
+    mask = bwareaopen(mask, 100,4);
+    mask = imdilate(mask, strel('disk', 3));
+    mask = imfill(mask, 'holes');
     
-    
-    
+    %mask = imerode(mask,strel('line', 10, -35));
     %4.Get the actual blobs
     [~, centroids, bboxes] = blobAnalyser.step(mask);
+    toRemove = zeros(1,size(bboxes,1));
+    for t=1:size(bboxes,1)
+        for p=t:size(bboxes,1)
+            if (t~=p && bboxOverlapRatio(bboxes(t,:),bboxes(p,:)) >= 0.1)
+                bboxOverlapRatio(bboxes(t,:),bboxes(p,:))
+                toRemove(p) = 1;
+            end
+        end
+    end
     
+    for t=1:size(bboxes,1)
+        if (toRemove(t))
+            bboxes(p,:) = [];
+            centroids(p,:) = [];
+        end
+    end
     %5.Predict the Location of the actual tracks
     [tracks] = Kalman_predictNewLocationsOfTracks(tracks);
     [assignments, unassignedTracks, unassignedDetections] = Kalman_detectionToTrackAssignment(tracks,centroids);
-    Kalman_updateAssignedTracks(assignments,tracks,centroids,bboxes)
-    Kalman_updateUnassignedTracks(tracks,unassignedTracks);
-    Kalman_deleteLostTracks(tracks);
-    Kalman_createNewTracks(centroids,bboxes,tracks,unassignedDetections,nextId);
+    [tracks] = Kalman_updateAssignedTracks(assignments,tracks,centroids,bboxes);
+    [tracks] = Kalman_updateUnassignedTracks(tracks,unassignedTracks);
+    [tracks] = Kalman_deleteLostTracks(tracks);
+    [tracks,nextId] = Kalman_createNewTracks(centroids,bboxes,tracks,unassignedDetections,nextId);
     
     if ~isempty(bboxes)
         mask = uint8(repmat(mask, [1, 1, 3])) .* 255;
-        
         %Compute labels
-        mask = insertObjectAnnotation(mask, 'rectangle',bboxes, unassignedDetections);
-        imshow(mask,[]);
+        labels = [];
+        for j = 1:size(bboxes,1)
+            labels = [labels tracks(j).id];
+        end
+        rgbFrame = insertObjectAnnotation(rgbFrame, 'rectangle',bboxes, labels);
+        imshow(rgbFrame,[]);
         pause(0.001);
     end
 end
