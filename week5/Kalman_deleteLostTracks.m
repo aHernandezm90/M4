@@ -1,9 +1,9 @@
-function Kalman_deleteLostTracks(tracks)
+function [tracks] = Kalman_deleteLostTracks(tracks)
     if isempty(tracks)
         return;
     end
 
-    invisibleForTooLong = 20;
+    invisibleForTooLong = 3;
     ageThreshold = 8;
 
     % Compute the fraction of the track's age for which it was visible.

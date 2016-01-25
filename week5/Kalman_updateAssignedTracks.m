@@ -1,4 +1,4 @@
-function Kalman_updateAssignedTracks(assignments,tracks,centroids,bboxes)
+function [tracks] = Kalman_updateAssignedTracks(assignments,tracks,centroids,bboxes)
         numAssignedTracks = size(assignments, 1);
         for i = 1:numAssignedTracks
             trackIdx = assignments(i, 1);

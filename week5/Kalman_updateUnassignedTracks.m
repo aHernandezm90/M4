@@ -1,4 +1,4 @@
-function Kalman_updateUnassignedTracks(tracks,unassignedTracks)
+function [tracks] = Kalman_updateUnassignedTracks(tracks,unassignedTracks)
     for i = 1:length(unassignedTracks)
         ind = unassignedTracks(i);
         tracks(ind).age = tracks(ind).age + 1;
