@@ -8,7 +8,7 @@ workingDir = inputFolder;
 imageNames = dir(fullfile(workingDir,'*.jpg'));
 imageNames = {imageNames.name}';
 
-for i=1:101
+for i=1:length(imageNames)
     writeVideo(v,imread(strcat(workingDir,imageNames{i})));
 end
 

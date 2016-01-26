@@ -22,7 +22,12 @@ tracks = struct(...
 % ID of the next track
 nextId = 1; 
 
+%Initialize iteration counter
+itCounter = 0;
+
 while ~isDone(reader)
+    %Refresh iteration counter
+    itCounter = itCounter + 1;
     
     %1.Actual frame
     frame = reader.step();
@@ -33,8 +38,6 @@ while ~isDone(reader)
     %3.Remove noise
     mask = bwareaopen(mask, 300);
     mask = imclose(mask, strel('disk', 3));
-    
-    
     
     %4.Get the actual blobs
     [~, centroids, bboxes] = blobAnalyser.step(mask);
@@ -49,6 +52,12 @@ while ~isDone(reader)
     
     if ~isempty(bboxes)
         mask = uint8(repmat(mask, [1, 1, 3])) .* 255;
+        %Compute velocity
+        %From previous calculation, we know that each pixel corresponds to
+        %0,1250m and between each frame and the time lapse between frames 
+        %is 0,0330s
+%         lengthLapse = 0.1250;
+%         timeLpase = 0.0330;
         
         %Compute labels
         mask = insertObjectAnnotation(mask, 'rectangle',bboxes, unassignedDetections);
