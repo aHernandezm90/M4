@@ -1,4 +1,4 @@
-function [tracks ] = Kalman_predictNewLocationsOfTracks(tracks)
+function [tracks] =  Kalman_predictNewLocationsOfTracks(tracks)
     for i = 1:length(tracks)
         bbox = tracks(i).bbox;
 
