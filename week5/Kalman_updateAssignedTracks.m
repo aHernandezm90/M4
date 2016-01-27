@@ -3,13 +3,14 @@ function [tracks] = Kalman_updateAssignedTracks(assignments,tracks,centroids,bbo
         for i = 1:numAssignedTracks
             trackIdx = assignments(i, 1);
             detectionIdx = assignments(i, 2);
+            tracks(trackIdx).oldCentroid = tracks(trackIdx).centroid ;
             centroid = centroids(detectionIdx, :);
             bbox = bboxes(detectionIdx, :);
 
             % Correct the estimate of the object's location
             % using the new detection.
             correct(tracks(trackIdx).kalmanFilter, centroid);
-
+            tracks(trackIdx).centroid = centroid;
             % Replace predicted bounding box with detected
             % bounding box.
             tracks(trackIdx).bbox = bbox;
