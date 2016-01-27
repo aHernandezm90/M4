@@ -19,7 +19,10 @@ tracks = struct(...
             'kalmanFilter', {}, ...
             'age', {}, ...
             'totalVisibleCount', {}, ...
-            'consecutiveInvisibleCount', {});
+            'consecutiveInvisibleCount', {}, ...
+            'centroid', {}, ...
+            'vel', {}, ...
+            'oldCentroid', {});
 % ID of the next track
 nextId = 1; 
 
@@ -69,11 +72,11 @@ while ~isDone(reader)
         mask = imfill(mask, 'holes');
     else
           se = strel('square', 4);
-          mask = medfilt2(mask,[7 7]);
+          mask = medfilt2(mask);
           mask = bwareaopen(mask, params.areaOpen,4);
-%          mask = imdilate(mask, strel('disk', 3));
+          mask = imdilate(mask, strel('disk', 3));
           mask = imfill(mask, 'holes');
-          %mask = imopen(mask, se);
+          mask = imopen(mask, se);
     end
     %4.Get the actual blobs
     [~, centroids, bboxes] = blobAnalyser.step(mask);
@@ -86,7 +89,7 @@ while ~isDone(reader)
 %             end
 %         end
 %     end
-    
+%     
 %     for t=1:size(bboxes,1)
 %         if (toRemove(t))
 %             bboxes(p,:) = [];
@@ -104,9 +107,22 @@ while ~isDone(reader)
     if ~isempty(bboxes)
         mask = uint8(repmat(mask, [1, 1, 3])) .* 255;
         %Compute labels
-        labels = [];
+        labels = {};
         for j = 1:size(bboxes,1)
-            labels = [labels tracks(j).id];
+            if (isempty(tracks(j).oldCentroid))
+                vel = 'Unkown';
+            else
+                realx = [tracks(j).centroid(1) tracks(j).oldCentroid(1)];
+                realy = [tracks(j).centroid(2) tracks(j).oldCentroid(2)];
+                [homx,homy] = transformPointsForward(params.H, realx, realy);
+                dist = sqrt( (homx(1)-homx(2))^2 + (homy(2)-homy(1))^2 );
+                distreal = (dist*params.est2real) / params.est;
+                vel = distreal*params.vel*3.6;
+                
+            end
+            text = strcat('Id:',num2str(tracks(j).id),' Vel:',num2str(mean([vel tracks(j).vel])) );
+            labels{j} = text;
+            tracks(j).vel = vel;
         end
         rgbFrame = insertObjectAnnotation(rgbFrame, 'rectangle',bboxes, labels);
     end

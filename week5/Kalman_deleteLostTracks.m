@@ -3,8 +3,8 @@ function [tracks] = Kalman_deleteLostTracks(tracks)
         return;
     end
 
-    invisibleForTooLong = 20;
-    ageThreshold = 10;
+    invisibleForTooLong = 2;
+    ageThreshold = 8;
 
     % Compute the fraction of the track's age for which it was visible.
     ages = [tracks(:).age];
