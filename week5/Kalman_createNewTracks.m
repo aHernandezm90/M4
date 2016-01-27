@@ -1,4 +1,4 @@
-function Kalman_createNewTracks(centroids,bboxes,tracks,unassignedDetections,nextId)
+function [tracks,nextId] = Kalman_createNewTracks(centroids,bboxes,tracks,unassignedDetections,nextId)
         centroids = centroids(unassignedDetections, :);
         bboxes = bboxes(unassignedDetections, :);
 
