@@ -25,8 +25,6 @@ tracks = struct(...
             'oldCentroid', {});
 % ID of the next track
 nextId = 1; 
-% text of the bounfing Boxes
-text='';
 
 % Write Output
 v = VideoWriter(strcat(strrep(params.videoInput,'input','output')));
@@ -128,7 +126,7 @@ while ~isDone(reader)
                 labels{j} = text;
                 tracks(j).vel = vel;
             else
-                if isempty(text)
+                if ~isempty(text)
                     labels{j}='';
                 else
                     labels{j} = text;
