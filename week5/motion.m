@@ -1,7 +1,8 @@
 clear all; close all; clc
 
+no=0;
 %% Read video into MATLAB using aviread
-video = aviread('Dataset/highway/highway.avi');
+video = aviread('Dataset/highway/source2.avi');
 nframes = length(video);
 
 % Calculate the background image by averaging the first 5 images
@@ -97,8 +98,14 @@ for i=1:nframes
 
   % Plot the tracking rectangle after Kalman filtering -- red
   hold on
-  rectangle('Position',[(actual(i,1)-kalmanx) (actual(i,2)-kalmany) xwidth ywidth],'EdgeColor','r','LineWidth',1.5);
-  hold on
+  %rectangle('Position',[(actual(i,1)-kalmanx) (actual(i,2)-kalmany) xwidth ywidth],'EdgeColor','r','LineWidth',1.5);
+  %hold on
+  %%
+  rectangle('Position',[(actual(i,1)-kalmanx) (actual(i,2)-kalmany) xwidth ywidth],'EdgeColor','r','LineWidth',5);
+  txt=text(actual(i,1)-kalmanx, actual(i,2)-kalmany, strcat('car: ', num2str(round(no))));
+  set(txt, 'FontName', 'Arial', 'FontWeight', 'bold', 'FontSize', 12, 'Color', 'black');
+  no=no+1;
+        %%
   plot(actual(i,1),actual(i,2), 'rx','LineWidth',1.5);
   drawnow;
 end
